@@ -18,5 +18,5 @@ int main(){
         wordlist.push_back(word);
     }
 
-    // Igraph graph = Igraph(wordList);
+    Igraph graph = Igraph(wordlist);
 }
