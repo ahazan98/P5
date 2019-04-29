@@ -12,23 +12,27 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <map>
 
 using namespace std;
 
 class Igraph {
 
-
-
-
     protected:
 
     private:
-    const vector<string> wl;
+    vector<string> wl;
+    map< string,vector<string> > graph;
 
     public:
-    Igraph();
-    Igraph(const vector<string> w){
+    // Igraph();
+    Igraph(vector<string> w){
         wl = w;
+        vector<string>::iterator ptr;
+        for(ptr = w.begin(); ptr < w.end(); ptr++){
+            vector<string> temp;
+            graph.insert({ptr,temp});
+        }
     }
 
 
