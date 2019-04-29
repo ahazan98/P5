@@ -17,9 +17,6 @@ using namespace std;
 
 class Igraph {
 
-
-
-
     protected:
 
     private:
