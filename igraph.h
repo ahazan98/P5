@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <string>
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
@@ -18,18 +20,34 @@ using namespace std;
 class Igraph {
 
     public:
-    Igraph(const vector<string>& w): wl(w) {}
+    Igraph(const vector<string>& w): wl(w) {
+        for(int i = 0; i < wl.size(); i++){
+            vector<int> row;
+            graph.push_back(row);
+        }
+        makeGraph();
+    }
    
     //add an edge to a graph
     void addEdge(int, int);
 
+    void makeGraph();
+
+    //get the word in a graph using an id
+    string getWord(int);
+
     //check if word is in the graph.
-    bool checkWord(string);
+    int checkWord(string);
+
+    int cWHelper(string,int,int);
 
     //degree of a vertex
     int checkDegree(int);
+
+    //check if two words are neighbors
+    bool checkNeighbor(int, int);
     //neighborhood of a vertex
-    void checkNeighborhood(int);
+    void getNeighborhood(int);
 
     //eccntricity of a vertex
 
@@ -39,7 +57,7 @@ class Igraph {
 
     private:
     const vector<string>& wl;
-    vector<vector<int> > graph;
+    vector< vector<int> > graph;
 
 
 
