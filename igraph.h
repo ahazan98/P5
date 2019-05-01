@@ -24,12 +24,22 @@ class Igraph {
     public:
     Igraph(const vector<string>& w): wl(w) {
         for(int i = 0; i < wl.size(); i++){
+            vertices = wl.size();
             vector<int> row;
             graph.push_back(row);
         }
         makeGraph();
     }
-   
+    
+    int numVertices(){
+        return vertices;
+    }
+
+    int numEdges(){
+        return edges;
+    }
+    
+    int largestDegree(vector<int>&);
     //add an edge to a graph
     void addEdge(int, int);
 
@@ -66,6 +76,9 @@ class Igraph {
     private:
     const vector<string>& wl;
     vector< vector<int> > graph;
+
+    int vertices = 0;
+    int edges = 0;
 
 
 

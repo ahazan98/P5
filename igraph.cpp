@@ -3,31 +3,60 @@
 
 void Igraph::addEdge(int idA, int idB){
     graph[idA].push_back(idB);
-
-    // vector<int> edges = graph.at(idA);
-    // cout << "hi" << endl;
-    // edges.push_back(idB);
-    
-    // for(int i = 0; i < edges.size(); i ++){
-    //     cout << edges[i]<< endl;
-    // }
-    // graph[idA] = edges;
 }
 
+int Igraph::largestDegree(vector<int>& words){
+    int max = 0;
+    // vector<int> words;
+    for(int i = 0; i < wl.size(); i++){
+        
+        // cout << graph[i].size() << endl;
+        if(graph[i].size() == max){
+            words.push_back(i);
+        }
+        else if (graph[i].size() > max){
+            max = graph[i].size();
+            words.clear();
+            words.push_back(i);
+        }
+    }
+    return max;
+}
 void Igraph::makeGraph(){
     //go through every word and change every word on the (ascii 97 - 122)
     // maybe change for speed?
 
-    for(int i = 0; i < wl.size(); i++){\
-        for(int j = 0; j < wl.size(); j++){
-            
-            if(checkNeighbor(i,j)){
-                // cout << i << " and " << j << " are neighbors" << endl;
-                addEdge(i,j);
-                // cout << "edge added" << endl;
+    for(int i = 0; i < wl.size(); i++){
+        // string s = wl[i];
+        for(int j = 0; j < wl[i].size(); j++){
+            // cout << wl[i][j] << endl;
+            int letter = wl[i][j];
+            for(int a = 97; a <= 122; a++){
+                string temp = wl[i];
+                if(letter != a){
+                    temp[j] = a;
+                    // cout << temp << endl;
+
+                    int c = checkWord(temp);
+                    if(c != -1){
+                        addEdge(i,c);
+                        edges++;
+                    }
+                }
             }
         }
     }
+
+    // for(int i = 0; i < wl.size(); i++){\
+    //     for(int j = 0; j < wl.size(); j++){
+            
+    //         if(checkNeighbor(i,j)){
+    //             // cout << i << " and " << j << " are neighbors" << endl;
+    //             addEdge(i,j);
+    //             // cout << "edge added" << endl;
+    //         }
+    //     
+    // }
     
 }
 
@@ -63,7 +92,7 @@ int Igraph::checkWord(string word){
 }
 
 int Igraph::cWHelper(string word, int beginning, int end){
-    cout << "beginning: " << beginning << "end: " << end << endl;
+    // cout << "beginning: " << beginning << "end: " << end << endl;
     if(beginning == end){
         if(word.compare(wl[end]) == 0) { //.equals?
             return end;
@@ -73,7 +102,7 @@ int Igraph::cWHelper(string word, int beginning, int end){
         }
     }
     else {
-        cout << "not equal!" << endl;
+        // cout << "not equal!" << endl;
         int middle = (beginning + end)/2;
         if(word.compare(wl[middle]) == 0){
             return middle;
@@ -105,16 +134,17 @@ vector<int> Igraph::connectedComponent(){
     vector<int> d(wl.size(),0);
     vector<int> pred(wl.size(),0);
     
-    vector<int> components;
     int numVisited = 0;
+    vector<int> components;
     for(int i = 0; i < wl.size(); i++){
         if(visited[i] != 1){
             BFS(i, visited, d, pred, numVisited);
-            cout << "BFS!!" << endl;
             components.push_back(numVisited);
             numVisited = 0;
+            continue;
         }
     }
+    return components;
 }
 void Igraph::BFS(int id, vector<int>& visited, vector<int>& d,vector<int>& pred, int& numVisited){
     // int d[wl.size()];
@@ -129,16 +159,17 @@ void Igraph::BFS(int id, vector<int>& visited, vector<int>& d,vector<int>& pred,
     pred[id] = -1;
 
     while(!q.empty()){
-        int v = q.back();
+        int v = q.front();
         q.pop();
         vector<int> neighbors = graph[v];
         for(int w = 0; w < neighbors.size(); w++){
             if(visited[neighbors[w]] != 1){
-                d[w] = d[v] + 1;
-                pred[w] = v;
-                visited[w] = 1;
+
+                d[neighbors[w]] = d[v] + 1;
+                pred[neighbors[w]] = v;
+                visited[neighbors[w]] = 1;
                 numVisited++;
-                q.push(w);
+                q.push(neighbors[w]);
             }
         }
     }
