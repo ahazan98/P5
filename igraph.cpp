@@ -107,14 +107,21 @@ vector<int> Igraph::connectedComponent(){
     
     vector<int> components;
     int numVisited = 0;
+    int count = 0;
     for(int i = 0; i < wl.size(); i++){
+        cout << "word id: " << i << endl;
         if(visited[i] != 1){
+            cout << "starting " << count << "'s BFS" << endl;
             BFS(i, visited, d, pred, numVisited);
-            cout << "BFS!!" << endl;
+            cout << "BFS success" << endl;
             components.push_back(numVisited);
+            cout << "component success" << endl;
             numVisited = 0;
+            count++;
         }
+        cout << "No need for BFS" << endl;
     }
+    cout << "done with components" << endl;
 }
 void Igraph::BFS(int id, vector<int>& visited, vector<int>& d,vector<int>& pred, int& numVisited){
     // int d[wl.size()];
@@ -129,7 +136,7 @@ void Igraph::BFS(int id, vector<int>& visited, vector<int>& d,vector<int>& pred,
     pred[id] = -1;
 
     while(!q.empty()){
-        int v = q.back();
+        int v = q.front();
         q.pop();
         vector<int> neighbors = graph[v];
         for(int w = 0; w < neighbors.size(); w++){
