@@ -14,6 +14,7 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <queue>
 #include <map>
 
 using namespace std;
@@ -53,6 +54,12 @@ class Igraph {
     //eccntricity of a vertex
 
     //shortest path between two words
+
+    //breadth first search
+    void BFS(int, vector<int>&, vector<int>&, vector<int>&, int&);
+
+    //connected components
+    vector<int> connectedComponent();
 
     protected:
 

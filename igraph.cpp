@@ -16,7 +16,9 @@ void Igraph::addEdge(int idA, int idB){
 
 void Igraph::makeGraph(){
     //go through every word and change every word on the (ascii 97 - 122)
-    for(int i = 0; i < wl.size(); i++){
+    // maybe change for speed?
+
+    for(int i = 0; i < wl.size(); i++){\
         for(int j = 0; j < wl.size(); j++){
             
             if(checkNeighbor(i,j)){
@@ -97,4 +99,49 @@ void Igraph::getNeighborhood(int id){
     for(vector<int>::iterator iter = neighbors.begin(); iter != neighbors.end(); iter++){
         cout << wl[*iter] << endl;
     }
+}
+vector<int> Igraph::connectedComponent(){
+    vector<int> visited(wl.size(),0);
+    vector<int> d(wl.size(),0);
+    vector<int> pred(wl.size(),0);
+    
+    vector<int> components;
+    int numVisited = 0;
+    for(int i = 0; i < wl.size(); i++){
+        if(visited[i] != 1){
+            BFS(i, visited, d, pred, numVisited);
+            cout << "BFS!!" << endl;
+            components.push_back(numVisited);
+            numVisited = 0;
+        }
+    }
+}
+void Igraph::BFS(int id, vector<int>& visited, vector<int>& d,vector<int>& pred, int& numVisited){
+    // int d[wl.size()];
+    // int pred[wl.size()];
+    // int visited[wl.size()];
+    queue <int> q;
+
+    visited[id] = 1;
+    numVisited++;
+    q.push(id);
+    d[id] = 0;
+    pred[id] = -1;
+
+    while(!q.empty()){
+        int v = q.back();
+        q.pop();
+        vector<int> neighbors = graph[v];
+        for(int w = 0; w < neighbors.size(); w++){
+            if(visited[neighbors[w]] != 1){
+                d[w] = d[v] + 1;
+                pred[w] = v;
+                visited[w] = 1;
+                numVisited++;
+                q.push(w);
+            }
+        }
+    }
+
+
 }

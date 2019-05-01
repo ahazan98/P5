@@ -21,10 +21,11 @@ int main(){
     }
 
     Igraph graph = Igraph(wordlist);
+    vector<int> comp = graph.connectedComponent();
     cout << setw(5);
     cout << "Number of vertices: " <<  endl;
     cout << "Number of edges:" << endl;
-    cout << "Number of components:" << endl;
+    cout << "Number of components:" << comp.size() << endl;
     cout << "Largest component:" << endl;
     cout << "Largest Degree:" << endl;
     cout << endl;
