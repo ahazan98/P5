@@ -1,3 +1,7 @@
+
+// @authors Alex Hazan and Brandon Ra
+
+
 #include "igraph.h"
 #include "vector"
 
@@ -7,10 +11,8 @@ void Igraph::addEdge(int idA, int idB){
 
 int Igraph::largestDegree(vector<int>& words){
     int max = 0;
-    // vector<int> words;
     for(int i = 0; i < wl.size(); i++){
         
-        // cout << graph[i].size() << endl;
         if(graph[i].size() == max){
             words.push_back(i);
         }
@@ -23,20 +25,15 @@ int Igraph::largestDegree(vector<int>& words){
     return max;
 }
 void Igraph::makeGraph(){
-    //go through every word and change every word on the (ascii 97 - 122)
-    // maybe change for speed?
+    
 
     for(int i = 0; i < wl.size(); i++){
-        // string s = wl[i];
         for(int j = 0; j < wl[i].size(); j++){
-            // cout << wl[i][j] << endl;
             int letter = wl[i][j];
             for(int a = 97; a <= 122; a++){
                 string temp = wl[i];
                 if(letter != a){
                     temp[j] = a;
-                    // cout << temp << endl;
-
                     int c = checkWord(temp);
                     if(c != -1){
                         addEdge(i,c);
@@ -45,19 +42,7 @@ void Igraph::makeGraph(){
                 }
             }
         }
-    }
-
-    // for(int i = 0; i < wl.size(); i++){\
-    //     for(int j = 0; j < wl.size(); j++){
-            
-    //         if(checkNeighbor(i,j)){
-    //             // cout << i << " and " << j << " are neighbors" << endl;
-    //             addEdge(i,j);
-    //             // cout << "edge added" << endl;
-    //         }
-    //     
-    // }
-    
+    }    
 }
 
 bool Igraph::checkNeighbor(int idA, int idB){
@@ -86,15 +71,12 @@ string Igraph::getWord(int id){
 }
 
 int Igraph::checkWord(string word){
-    //check if it is in the wordlist? -1 if don't exist
-
     return cWHelper(word, 0, wl.size() - 1);
 }
 
 int Igraph::cWHelper(string word, int beginning, int end){
-    // cout << "beginning: " << beginning << "end: " << end << endl;
     if(beginning == end){
-        if(word.compare(wl[end]) == 0) { //.equals?
+        if(word.compare(wl[end]) == 0) { 
             return end;
         }
         else{
@@ -102,17 +84,14 @@ int Igraph::cWHelper(string word, int beginning, int end){
         }
     }
     else {
-        // cout << "not equal!" << endl;
         int middle = (beginning + end)/2;
         if(word.compare(wl[middle]) == 0){
             return middle;
         }
         else if(word.compare(wl[middle])<0){
-            // cout << "earlier than current middle!" << endl;
             return cWHelper(word, beginning, middle);
         }
         else{
-            // cout << "later than current middle!" << endl;
             return cWHelper(word,middle+1,end);
         }
     }
@@ -126,7 +105,7 @@ int Igraph::checkDegree(int id){
 void Igraph::getNeighborhood(int id){
     vector<int> neighbors = graph[id];
     for(vector<int>::iterator iter = neighbors.begin(); iter != neighbors.end(); iter++){
-        cout << wl[*iter] << endl;
+        cout << setw(10) << wl[*iter] << endl;
     }
 }
 vector<int> Igraph::connectedComponent(int& maxComp){
@@ -150,9 +129,6 @@ vector<int> Igraph::connectedComponent(int& maxComp){
     return components;
 }
 void Igraph::BFS(int id, vector<int>& visited, vector<int>& d,vector<int>& pred, int& numVisited){
-    // int d[wl.size()];
-    // int pred[wl.size()];
-    // int visited[wl.size()];
     queue <int> q;
 
     visited[id] = 1;
@@ -195,7 +171,6 @@ vector<int> Igraph::shortestPath(int startId, int endId){
     int curr = endId;
     while(curr != -1){
         path.push_back(curr);
-        // cout << getWord(curr) << endl;
         curr = pred[curr];
     }
     
@@ -220,4 +195,3 @@ int Igraph::getEccentricity(int id){
     return ev;
 }
 
-// evict in create and whenever you put it in node map

@@ -1,3 +1,5 @@
+// @authors Alex Hazan and Brandon Ra
+
 #include "igraph.h"
 
 using namespace std;
@@ -21,17 +23,7 @@ int main(){
     }
 
     Igraph graph = Igraph(wordlist);
-    // graph.getNeighborhood(graph.checkWord("graph"));
-    // vector<int> comp = graph.connectedComponent();
-    // cout << comp.size() << endl;
-    // graph.getNeighborhood(1);
-    // cout << graph.checkWord("aaalii") << endl;
-
-    // vector<int> visited(wordlist.size(),0);
-    // vector<int> d(wordlist.size(),0);
-    // vector<int> pred(wordlist.size(),0);
-    // int numVisited = 0;
-    // graph.BFS(1,visited, d, pred,numVisited);
+    
 
     int maxComp = 0;
     vector<int> comp = graph.connectedComponent(maxComp);
@@ -55,23 +47,20 @@ int main(){
     }
     cout << endl;
 
-    char next = 'a';
+    string next = "a";
     
-    while(next != 'q'){
+    while(next != "q"){
         cout << "Command (d/i/q)? ";
         cin >> next;
-        if(next =='d'){
+        if(next =="d"){
             string source;
             string dest;
             cout << "Enter source word (" << graph.getWord(0).size()<< " letters): ";
-            cin >> source;
-            
-            // transform(source.begin(), source.end(), source.begin(), ::tolower);
-            
+            cin >> source;            
             cout << "Enter destination word: ";
             cin >> dest;
-            // transform(dest.begin(), dest.end(), dest.begin(), ::tolower);
-            for(int c = 0; c < source.size(); c ++){
+            for(int c = 0;
+             c < source.size(); c ++){
                 source[c] = tolower(source[c]);
                 dest[c] = tolower(dest[c]);
 
@@ -83,6 +72,7 @@ int main(){
                 cout << source << " is not in the graph" << endl;
                 continue;
             }
+
             if(destId == -1){
                 cout << dest << " is not in the graph" << endl;
                 continue;
@@ -97,9 +87,8 @@ int main(){
             }
 
 
-            continue;
         }
-        else if(next == 'i'){
+        else if(next == "i"){
             
             cout << "Enter source word (" << graph.getWord(0).size()<< " letters): ";
             string source;
@@ -107,21 +96,25 @@ int main(){
             int id = graph.checkWord(source);
             for(int c = 0; c < source.size(); c ++){
                 source[c] = tolower(source[c]);
-
             }
-            // transform(source.begin(), source.end(), source.begin(), ::tolower);
+
             if(id == -1){
                 cout << source << " is not in the graph" << endl;
                 continue;
             }
+
             cout << "   Degree of graph is: " << graph.checkDegree(id) << endl;
             cout << "   Neighborhood of graph: " << endl;
+
             graph.getNeighborhood(id);
+
             cout << "   Eccentricity of graph: " << graph.getEccentricity(id) << endl;
-            continue;
         }
-        else if (next != 'q'){
-            cout <<"Please enter either d, i or q!" << endl;
+        else{
+            if(next != "q"){
+                next.clear();
+                cout <<"Please enter either d, i or q!" << endl;
+            }
         }
     }
     cout << "Thanks for playing!" << endl;

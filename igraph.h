@@ -1,7 +1,9 @@
+// @authors Alex Hazan and Brandon Ra
+
+
 #ifndef igraph_h
 #define igraph_h
 #include <cstddef>
-// #include<bits/stdc++.h> 
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -85,11 +87,3 @@ class Igraph {
 };
 
 #endif
-
-/*
-Questions:
-1. how to store the wl without it hating us
-2. how to do the numbers of the words
-3. the check if in graph method is supposed to be logn. do you need to keep words ordered somehow?
-4. components clarification
-*/
