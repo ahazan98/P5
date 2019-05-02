@@ -33,22 +33,17 @@ int main(){
     // int numVisited = 0;
     // graph.BFS(1,visited, d, pred,numVisited);
 
+    int maxComp = 0;
+    vector<int> comp = graph.connectedComponent(maxComp);
     
-    vector<int> comp = graph.connectedComponent();
-    int sum = 0;
-    for(int i = 0; i < comp.size(); i++){
-        sum += comp[i];
-    }
-    cout << sum << endl;
 
     cout << setw(5);
-    cout << "Number of vertices: " << graph.numVertices() << endl;
-    cout << "Number of edges: " << graph.numEdges() <<endl;
-    cout << "Number of components: " << comp.size() << endl;
-    cout << "Largest component: " << endl;
+    cout << "   Number of vertices: " << graph.numVertices() << endl;
+    cout << "   Number of edges: " << graph.numEdges() <<endl;
+    cout << "   Number of components: " << comp.size() << endl;
+    cout << "   Largest component: " << maxComp << endl;
     vector<int> words;
-    cout << "Largest Degree:" << graph.largestDegree(words) << " at ";
-    // cout << words.size() << endl;
+    cout << "   Largest Degree: " << graph.largestDegree(words) << " at ";
     if(words.size() ==1){
         cout << graph.getWord(words[0]) << endl;
     }
@@ -60,21 +55,66 @@ int main(){
     }
     cout << endl;
 
-    // char next;
-    // do{
-    //     cout << "Command (d/i/q)? ";
-    //     cin >> next;
-    //     if(next =='d'){
-    //         continue;
-    //     }
-    //     if(next == 'i'){
-    //         continue;
-    //     }
-    //     if(next != 'q'){
-    //         cout <<"Please enter either d, i or q!" << endl;
-    //     }
-    // }while(next != 'q');
-    // cout << "Thanks for playing!" << endl;
-    // return 0;
+    char next = 'a';
+    
+    while(next != 'q'){
+        cout << "Command (d/i/q)? ";
+        cin >> next;
+        if(next =='d'){
+            string source;
+            string dest;
+            cout << "Enter source word (" << graph.getWord(0).size()<< " letters): ";
+            cin >> source;
+            transform(source.begin(), source.end(), source.begin(), ::tolower);
+            
+            cout << "Enter destination word: ";
+            cin >> dest;
+            transform(dest.begin(), dest.end(), dest.begin(), ::tolower);
+
+            int sourceId = graph.checkWord(source);
+            int destId = graph.checkWord(dest);
+            if(sourceId == -1){
+                cout << source << " is not in the graph" << endl;
+                continue;
+            }
+            if(destId == -1){
+                cout << dest << " is not in the graph" << endl;
+                continue;
+            }
+
+            vector<int> sp = graph.shortestPath(sourceId,destId);
+            if(sp[0] != -1){
+                cout << "The path from " << source << " to " << dest << " has " << sp.size() - 1 << " steps " << endl;
+                for(vector<int>::reverse_iterator iter = sp.rbegin();iter != sp.rend(); iter++){
+                    cout << graph.getWord(*iter) << endl;
+                }
+            }
+
+
+            continue;
+        }
+        else if(next == 'i'){
+            
+            cout << "Enter source word (" << graph.getWord(0).size()<< " letters): ";
+            string source;
+            cin >> source;
+            int id = graph.checkWord(source);
+            transform(source.begin(), source.end(), source.begin(), ::tolower);
+            if(id == -1){
+                cout << source << " is not in the graph" << endl;
+                continue;
+            }
+            cout << "   Degree of graph is: " << graph.checkDegree(id) << endl;
+            cout << "   Neighborhood of graph: " << endl;
+            graph.getNeighborhood(id);
+            cout << "   Eccentricity of graph: " << graph.getEccentricity(id) << endl;
+            continue;
+        }
+        else{
+            cout <<"Please enter either d, i or q!" << endl;
+        }
+    }
+    cout << "Thanks for playing!" << endl;
+    return 0;
 
 }

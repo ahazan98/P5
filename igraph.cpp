@@ -129,10 +129,10 @@ void Igraph::getNeighborhood(int id){
         cout << wl[*iter] << endl;
     }
 }
-vector<int> Igraph::connectedComponent(){
+vector<int> Igraph::connectedComponent(int& maxComp){
     vector<int> visited(wl.size(),0);
     vector<int> d(wl.size(),0);
-    vector<int> pred(wl.size(),0);
+    vector<int> pred(wl.size(),-1);
     
     int numVisited = 0;
     vector<int> components;
@@ -140,6 +140,9 @@ vector<int> Igraph::connectedComponent(){
         if(visited[i] != 1){
             BFS(i, visited, d, pred, numVisited);
             components.push_back(numVisited);
+            if(numVisited > maxComp){
+                maxComp = numVisited;
+            }
             numVisited = 0;
             continue;
         }
@@ -173,6 +176,48 @@ void Igraph::BFS(int id, vector<int>& visited, vector<int>& d,vector<int>& pred,
             }
         }
     }
-
-
 }
+
+vector<int> Igraph::shortestPath(int startId, int endId){
+    vector<int> visited(wl.size(),0);
+    vector<int> d(wl.size(),0);
+    vector<int> pred(wl.size(),-1);
+    int numVisited;
+    vector<int> path;
+
+    BFS(startId, visited, d, pred, numVisited);
+    if(visited[endId] == 0){
+        cout << "There is no path from " << getWord(startId) << " to " << getWord(endId) << endl;
+        path.push_back(-1);
+        return path;
+    }
+
+    int curr = endId;
+    while(curr != -1){
+        path.push_back(curr);
+        // cout << getWord(curr) << endl;
+        curr = pred[curr];
+    }
+    
+    
+    return path;   
+}
+
+int Igraph::getEccentricity(int id){
+    vector<int> visited(wl.size(),0);
+    vector<int> d(wl.size(),0);
+    vector<int> pred(wl.size(),-1);
+    int numVisited;
+    BFS(id, visited, d, pred, numVisited);
+
+    int ev = 0;
+
+    for(int i = 0; i < d.size(); i++){
+        if (d[i] > ev){
+            ev = d[i];
+        }
+    }
+    return ev;
+}
+
+// evict in create and whenever you put it in node map

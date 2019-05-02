@@ -1,6 +1,7 @@
 #ifndef igraph_h
 #define igraph_h
 #include <cstddef>
+#include<bits/stdc++.h> 
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -36,7 +37,7 @@ class Igraph {
     }
 
     int numEdges(){
-        return edges;
+        return edges/2;
     }
     
     int largestDegree(vector<int>&);
@@ -62,14 +63,15 @@ class Igraph {
     void getNeighborhood(int);
 
     //eccntricity of a vertex
-
+    int getEccentricity(int);
     //shortest path between two words
+    vector<int> shortestPath(int, int);
 
     //breadth first search
     void BFS(int, vector<int>&, vector<int>&, vector<int>&, int&);
 
     //connected components
-    vector<int> connectedComponent();
+    vector<int> connectedComponent(int&);
 
     protected:
 
@@ -79,9 +81,6 @@ class Igraph {
 
     int vertices = 0;
     int edges = 0;
-
-
-
 
 };
 
