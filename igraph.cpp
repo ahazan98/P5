@@ -126,7 +126,7 @@ int Igraph::checkDegree(int id){
 void Igraph::getNeighborhood(int id){
     vector<int> neighbors = graph[id];
     for(vector<int>::iterator iter = neighbors.begin(); iter != neighbors.end(); iter++){
-        cout << wl[*iter] << endl;
+        cout << setw(10) << wl[*iter] << endl;
     }
 }
 vector<int> Igraph::connectedComponent(int& maxComp){
