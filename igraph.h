@@ -1,7 +1,7 @@
 #ifndef igraph_h
 #define igraph_h
 #include <cstddef>
-#include<bits/stdc++.h> 
+// #include<bits/stdc++.h> 
 #include <string>
 #include <iostream>
 #include <iomanip>

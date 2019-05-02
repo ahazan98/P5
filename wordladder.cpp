@@ -65,11 +65,17 @@ int main(){
             string dest;
             cout << "Enter source word (" << graph.getWord(0).size()<< " letters): ";
             cin >> source;
-            transform(source.begin(), source.end(), source.begin(), ::tolower);
+            
+            // transform(source.begin(), source.end(), source.begin(), ::tolower);
             
             cout << "Enter destination word: ";
             cin >> dest;
-            transform(dest.begin(), dest.end(), dest.begin(), ::tolower);
+            // transform(dest.begin(), dest.end(), dest.begin(), ::tolower);
+            for(int c = 0; c < source.size(); c ++){
+                source[c] = tolower(source[c]);
+                dest[c] = tolower(dest[c]);
+
+            }
 
             int sourceId = graph.checkWord(source);
             int destId = graph.checkWord(dest);
@@ -99,7 +105,11 @@ int main(){
             string source;
             cin >> source;
             int id = graph.checkWord(source);
-            transform(source.begin(), source.end(), source.begin(), ::tolower);
+            for(int c = 0; c < source.size(); c ++){
+                source[c] = tolower(source[c]);
+
+            }
+            // transform(source.begin(), source.end(), source.begin(), ::tolower);
             if(id == -1){
                 cout << source << " is not in the graph" << endl;
                 continue;
@@ -110,7 +120,7 @@ int main(){
             cout << "   Eccentricity of graph: " << graph.getEccentricity(id) << endl;
             continue;
         }
-        else{
+        else if (next != 'q'){
             cout <<"Please enter either d, i or q!" << endl;
         }
     }
