@@ -111,7 +111,9 @@ int main(){
             continue;
         }
         else{
-            cout <<"Please enter either d, i or q!" << endl;
+            if(next != 'q'){
+                cout <<"Please enter either d, i or q!" << endl;
+            }
         }
     }
     cout << "Thanks for playing!" << endl;
